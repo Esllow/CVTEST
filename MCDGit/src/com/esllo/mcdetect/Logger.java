@@ -11,7 +11,7 @@ public class Logger {
 	// Not used.
 	public void info(String text) {
 //		System.out.println(text);
-	}
+	} 
 
 	public void warn(String text) {
 		System.err.println(text);
