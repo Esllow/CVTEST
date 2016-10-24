@@ -18,6 +18,6 @@ public class Logger {
 	}
 
 	public void error(String text) {
-		System.err.println(text);
+		System.err.println(text); 
 	}
 }
