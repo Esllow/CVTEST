@@ -13,7 +13,7 @@ public class Logger {
 //		System.out.println(text);
 	} 
 
-	public void warn(String text) {
+	public void warn(String text) { 
 		System.err.println(text);
 	}
 
