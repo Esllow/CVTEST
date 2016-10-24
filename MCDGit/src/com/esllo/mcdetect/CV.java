@@ -37,14 +37,16 @@ public class CV {
 		System.loadLibrary(NATIVE_LIBRARY_NAME); // OPENCV 라이브러리 로드
 	}
 
-	public static Mat hsvIn(BufferedImage bi, Scalar lower, Scalar upper) { // hsvIn(BufferedImage, double, double, double, double, double ,double)
+	// lower ~ upper 범위 해당 값 : 1 o.w : 0
+	public static Mat hsvIn(BufferedImage bi, Scalar lower, Scalar upper) {
 		return hsvIn(bi, lower.val[0], lower.val[1], lower.val[2], upper.val[0], upper.val[1], upper.val[2]);
-	} 
+	}
 
-	// hsv 색상 범위 필터링
+	// Scalar(val, val2, val3) ~ Scalar(val4, val5, val6) 범위 해당 값 : 1 o.w : 0
 	public static Mat hsvIn(BufferedImage bi, double val, double val2, double val3, double val4, double val5,
 			double val6) {
 		Mat mat = new Mat(bi.getHeight(), bi.getWidth(), CvType.CV_8UC3);
+		// BufferedImage -> Mat
 		mat.put(0, 0, ((DataBufferByte) bi.getRaster().getDataBuffer()).getData());
 		Mat hsv = new Mat(mat.size(), CvType.CV_8UC3);
 		Mat msk = new Mat(hsv.size(), CvType.CV_8U, new Scalar(255d));
@@ -58,6 +60,7 @@ public class CV {
 	// BufferedImage to Mat
 	public static Mat toMat(BufferedImage bi) {
 		Mat mat = new Mat(bi.getHeight(), bi.getWidth(), CvType.CV_8UC3);
+		// BufferedImage -> Mat
 		mat.put(0, 0, ((DataBufferByte) bi.getRaster().getDataBuffer()).getData());
 		cvtColor(mat, mat, COLOR_RGB2BGR);
 		return mat;
@@ -69,6 +72,7 @@ public class CV {
 				: BufferedImage.TYPE_3BYTE_BGR);
 		byte[] data = new byte[mat.cols() * mat.rows() * (int) mat.elemSize()];
 		mat.get(0, 0, data);
+		// Mat -> BufferedImage
 		bo.getRaster().setDataElements(0, 0, mat.cols(), mat.rows(), data);
 		return bo;
 	}
@@ -76,16 +80,19 @@ public class CV {
 	// 100 이상의 Contour 찾고 태그명 출력
 	public static void findContour(Mat target, Mat draw, String tag) {
 		List<MatOfPoint> contours = new ArrayList<>();
-		findContours(target.clone(), contours, new Mat(), RETR_LIST, CHAIN_APPROX_SIMPLE);
+		findContours(target.clone(), contours, new Mat(), RETR_LIST, CHAIN_APPROX_SIMPLE); // 직사각형
+																							// contour
+																							// 찾기
 		for (int i = 0; i < contours.size(); i++) {
-			if (contourArea(contours.get(i)) > 100) {
+			if (contourArea(contours.get(i)) > 100) { // 사이즈가 100보다 클 경우
 				Rect rect = boundingRect(contours.get(i));
 				rectangle(draw, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height),
-						new Scalar(20, 150, 20), 3);
+						new Scalar(20, 150, 20), 3); // 직사각형 출력
 				Size tsize = Core.getTextSize(tag, Core.FONT_HERSHEY_DUPLEX, 1.5, 3, null);
 				double pox = rect.x + (rect.width / 2 - tsize.width / 2);
 				double poy = rect.y + rect.height / 2;
-				putText(draw, tag, new Point(pox, poy), Core.FONT_HERSHEY_DUPLEX, 1.5, new Scalar(20, 20, 20), 3);
+				putText(draw, tag, new Point(pox, poy), Core.FONT_HERSHEY_DUPLEX, 1.5, new Scalar(20, 20, 20), 3); // 태그명
+																													// 출력
 			}
 		}
 	}
