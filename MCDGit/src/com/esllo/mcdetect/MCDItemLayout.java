@@ -35,7 +35,7 @@ public class MCDItemLayout extends JPanel {
 
 	public void addItem(Component comp) {
 		list.add(comp);
-		// resize();
+		// resize(); 
 		comp.setLocation(0, list.size() * rheight);
 		add(comp);
 	}

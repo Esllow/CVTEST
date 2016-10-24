@@ -47,7 +47,7 @@ class RangeSliderUI extends BasicSliderUI {
 	}
 
 	/**
-	 * Installs this UI delegate on the specified component.
+	 * Installs this UI delegate on the specified component. 
 	 */
 	@Override
 	public void installUI(JComponent c) {

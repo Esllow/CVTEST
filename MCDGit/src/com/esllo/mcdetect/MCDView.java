@@ -68,7 +68,7 @@ public class MCDView extends JFrame implements ActionListener, IMediaListener {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 		JPanel wrap = new JPanel();
 		wrap.setPreferredSize(new Dimension(800, 330));
 		wrap.setLayout(null);

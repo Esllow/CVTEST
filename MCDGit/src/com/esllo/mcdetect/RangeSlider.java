@@ -26,7 +26,7 @@ public class RangeSlider extends JSlider {
 	}
 
 	/**
-	 * Constructs a RangeSlider with the specified default minimum and maximum
+	 * Constructs a RangeSlider with the specified default minimum and maximum 
 	 * values.
 	 */
 	public RangeSlider(int min, int max) {

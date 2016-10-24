@@ -38,7 +38,7 @@ public class MCDItemPane extends JPanel implements KeyListener, ChangeListener {
 
 	// GUI
 	private void initUI() {
-		this.setSize(400, 66);
+		this.setSize(400, 66); 
 		this.setMaximumSize(new Dimension(800, 66));
 		this.setLayout(null);
 		this.setBorder(BorderFactory.createLineBorder(new Color(128, 128, 128), 1));
