@@ -34,13 +34,14 @@ public class CV {
 	final static int MAX = 255;
 
 	static {
-		System.loadLibrary(NATIVE_LIBRARY_NAME);
+		System.loadLibrary(NATIVE_LIBRARY_NAME); // OPENCV 라이브러리 로드
 	}
 
-	public static Mat hsvIn(BufferedImage bi, Scalar lower, Scalar upper) {
+	public static Mat hsvIn(BufferedImage bi, Scalar lower, Scalar upper) { // hsvIn(BufferedImage, double, double, double, double, double ,double)
 		return hsvIn(bi, lower.val[0], lower.val[1], lower.val[2], upper.val[0], upper.val[1], upper.val[2]);
 	} 
 
+	// hsv 색상 범위 필터링
 	public static Mat hsvIn(BufferedImage bi, double val, double val2, double val3, double val4, double val5,
 			double val6) {
 		Mat mat = new Mat(bi.getHeight(), bi.getWidth(), CvType.CV_8UC3);
@@ -54,6 +55,7 @@ public class CV {
 		return msk;
 	}
 
+	// BufferedImage to Mat
 	public static Mat toMat(BufferedImage bi) {
 		Mat mat = new Mat(bi.getHeight(), bi.getWidth(), CvType.CV_8UC3);
 		mat.put(0, 0, ((DataBufferByte) bi.getRaster().getDataBuffer()).getData());
@@ -61,6 +63,7 @@ public class CV {
 		return mat;
 	}
 
+	// Mat to BufferedImage
 	public static BufferedImage toBufferedImage(Mat mat) {
 		BufferedImage bo = new BufferedImage(mat.cols(), mat.rows(), (mat.channels() < 2) ? BufferedImage.TYPE_BYTE_GRAY
 				: BufferedImage.TYPE_3BYTE_BGR);
@@ -70,6 +73,7 @@ public class CV {
 		return bo;
 	}
 
+	// 100 이상의 Contour 찾고 태그명 출력
 	public static void findContour(Mat target, Mat draw, String tag) {
 		List<MatOfPoint> contours = new ArrayList<>();
 		findContours(target.clone(), contours, new Mat(), RETR_LIST, CHAIN_APPROX_SIMPLE);
@@ -86,6 +90,7 @@ public class CV {
 		}
 	}
 
+	// 기본 색상별 HSV 범위
 	final static class ColorValue {
 		final static Scalar blueLow = new Scalar(102, 0, 0);
 		final static Scalar blueHigh = new Scalar(133, 255, 255);
