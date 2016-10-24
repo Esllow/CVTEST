@@ -46,9 +46,12 @@ import com.xuggle.xuggler.IError;
 
 public class MCDView extends JFrame implements ActionListener, IMediaListener {
 	private static final long serialVersionUID = 20165126L;
+	// URL input for RTSP
 	JTextField urlField;
+	// flag for drawing
 	public boolean running = false;
 
+	// image/frame draw panel
 	private JDraw draw;
 	JPanel layout;
 
@@ -57,8 +60,10 @@ public class MCDView extends JFrame implements ActionListener, IMediaListener {
 		initUI();
 	}
 
+	// GUI
 	private void initUI() {
 		try {
+			// Windows Default UI
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -119,7 +124,7 @@ public class MCDView extends JFrame implements ActionListener, IMediaListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {
-		case "oplink":
+		case "oplink": // RTSP
 			running = false;
 			String url = urlField.getText().toString().trim();
 			String pat = "^(rtsp://)[a-zA-Z0-9]*:[a-zA-Z0-9]*@[\\d]{1,3}[\\.][\\d]{1,3}[\\.][\\d]{1,3}[\\.][\\d]{1,3}";
@@ -128,7 +133,7 @@ public class MCDView extends JFrame implements ActionListener, IMediaListener {
 			if (m.find())
 				runRtspThread(url);
 			break;
-		case "opfile":
+		case "opfile": // File (img/video) - video 개발중
 			running = false;
 			JFileChooser fc = new JFileChooser();
 			fc.setAcceptAllFileFilterUsed(false);
@@ -155,6 +160,8 @@ public class MCDView extends JFrame implements ActionListener, IMediaListener {
 		}
 	}
 
+	
+	// run Thread with image
 	public void runImageThread(final BufferedImage bi) {
 		new Thread(new Runnable() {
 			public void run() {
@@ -166,7 +173,8 @@ public class MCDView extends JFrame implements ActionListener, IMediaListener {
 		}).start();
 	}
 
-	// rtsp://admin:admin@210.115.226.249/1/stream3
+	// rtsp://****:****@***.***.***.***
+	// run Thread with video
 	public void runRtspThread(final String url) {
 		new Thread(new Runnable() {
 
@@ -225,9 +233,9 @@ public class MCDView extends JFrame implements ActionListener, IMediaListener {
 	@Override
 	public void onVideoPicture(IVideoPictureEvent arg0) {
 		try {
-			BufferedImage bi = arg0.getImage();
+			BufferedImage bi = arg0.getImage(); // get BufferedImage
 			if (bi != null && running)
-				update(bi);
+				update(bi); // update Image/Frame
 		} catch (Exception e) {
 
 		}
@@ -235,6 +243,7 @@ public class MCDView extends JFrame implements ActionListener, IMediaListener {
 
 	public void updateImage(BufferedImage bi) {
 		Mat origin = CV.toMat(bi);
+		// check tag available
 		for (int i = 0; i < 5; i++) {
 			if (((MCDItemPane) layout.getComponent(i)).isChecked()) {
 				Scalar lower = ((MCDItemPane) layout.getComponent(i)).getLower();
@@ -244,6 +253,7 @@ public class MCDView extends JFrame implements ActionListener, IMediaListener {
 			}
 		}
 		bi = CV.toBufferedImage(origin);
+		// draw to panel
 		draw.update(bi);
 	}
 

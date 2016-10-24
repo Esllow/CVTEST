@@ -20,11 +20,14 @@ import org.opencv.core.Scalar;
 
 public class MCDItemPane extends JPanel implements KeyListener, ChangeListener {
 	private static final long serialVersionUID = 20165126;
+	// Sliders for h, s, v
 	RangeSlider hSlide;
 	RangeSlider sSlide;
 	RangeSlider vSlide;
 	JTextPane tagField;
+	// Apply Toggle
 	JCheckBox checked;
+	// Not used.
 	JTextField[] values = new JTextField[6];
 	MCDView mcd;
 
@@ -33,6 +36,7 @@ public class MCDItemPane extends JPanel implements KeyListener, ChangeListener {
 		this.initUI();
 	}
 
+	// GUI
 	private void initUI() {
 		this.setSize(400, 66);
 		this.setMaximumSize(new Dimension(800, 66));
@@ -99,6 +103,7 @@ public class MCDItemPane extends JPanel implements KeyListener, ChangeListener {
 		return this.checked.isSelected();
 	}
 
+	// set Tag, HSV lower, HSV upper
 	public MCDItemPane setValues(String tag, double[] v, double[] v2) {
 		this.tagField.setText(tag);
 		this.hSlide.setValue((int) v[0]);
@@ -110,11 +115,13 @@ public class MCDItemPane extends JPanel implements KeyListener, ChangeListener {
 		return this;
 	}
 
+	// get Lower Scalar Value
 	public Scalar getLower() {
 		return new Scalar((double) this.hSlide.getValue(), (double) this.sSlide.getValue(), (double) this.vSlide
 				.getValue());
 	}
 
+	// get Upper Scalar Value
 	public Scalar getUpper() {
 		return new Scalar((double) this.hSlide.getUpperValue(), (double) this.sSlide.getUpperValue(),
 				(double) this.vSlide.getUpperValue());
